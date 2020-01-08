@@ -1,0 +1,19 @@
+$default-margin: 5vh;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+#mainCanvas {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+
