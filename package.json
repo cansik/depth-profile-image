@@ -33,6 +33,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.1",
     "gulp-uglify": "^3.0.2",
+    "node-sass": "^4.13.0",
     "tsify": "^4.0.1",
     "typescript": "^3.5.3",
     "vinyl-buffer": "^1.0.1",
@@ -41,7 +42,6 @@
   "dependencies": {
     "@types/node": "^12.7.2",
     "babel-polyfill": "^6.26.0",
-    "bulma": "^0.7.5",
     "three": "^0.107.0"
   }
 }

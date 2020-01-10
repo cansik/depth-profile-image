@@ -1,19 +1,25 @@
-$default-margin: 5vh;
-
-* {
-  margin: 0;
-  padding: 0;
+html {
+  font-size: 22px;
 }
 
 body {
-  overflow: hidden;
+  padding: 1rem;
   font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
-#mainCanvas {
-  position: absolute;
-  height: 100%;
-  width: 100%;
+.card {
+  background-color: dodgerblue;
+  color: white;
+  padding: 1rem;
+  height: 4rem;
+}
+
+.cards {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 
