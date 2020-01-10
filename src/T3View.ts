@@ -22,17 +22,15 @@ export class T3View {
         // create scene
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(50, 1, 1, 10);
-
-        scene.userData.element = sceneElement;
-        scene.userData.camera = camera;
-
-        let controls = new OrbitControls(scene.userData.camera, scene.userData.element);
+        let controls = new OrbitControls(camera, sceneElement);
         controls.minDistance = 2;
         controls.maxDistance = 5;
         controls.enablePan = false;
         controls.enableZoom = false;
 
         // setup user data
+        scene.userData.element = sceneElement;
+        scene.userData.camera = camera;
         scene.userData.controls = controls;
 
         let geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -71,12 +69,6 @@ export class T3View {
         this.renderer.setScissorTest(true);
 
         this.scenes.forEach(scene => {
-            // so something moves
-            scene.children[0].rotation.y = Date.now() * 0.001;
-            scene.children[0].rotation.x = Date.now() * 0.001;
-
-            // get the element that is a place holder for where we want to
-            // draw the scene
             let element = scene.userData.element;
 
             // get its position relative to the page's viewport
@@ -99,7 +91,7 @@ export class T3View {
 
             let camera = scene.userData.camera;
 
-            camera.aspect = width / height; // not changing in this example
+            camera.aspect = width / height;
             camera.updateProjectionMatrix();
 
             scene.userData.controls.update();
