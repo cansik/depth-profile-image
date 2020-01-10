@@ -20,8 +20,6 @@ export class ThreeViewController {
     private readonly loader = new DRACOLoader();
     private readonly raycaster = new THREE.Raycaster();
 
-    private line: THREE.Line;
-
     public color = new CloudColor();
 
     public scale = new Vector3(-100.0, 100.0, 100.0);
@@ -79,24 +77,6 @@ export class ThreeViewController {
         return this.raycaster.intersectObject(this.model);
     }
 
-    public drawRay(a: Vector3, b: Vector3, color: number = 0xffffff) {
-        this.removeRay();
-
-        // setup line
-        let material = new THREE.LineBasicMaterial({color: color, linewidth: 3});
-        let geometry = new THREE.Geometry();
-        geometry.vertices.push(a);
-        geometry.vertices.push(b);
-        this.line = new THREE.Line(geometry, material);
-        this.line.frustumCulled = false;
-
-        this.scene.add(this.line);
-    }
-
-    public removeRay() {
-        this.scene.remove(this.line);
-    }
-
     private setupControls() {
         this.controls.autoRotate = true;
         this.controls.enablePan = true;
@@ -123,7 +103,6 @@ export class ThreeViewController {
             this.scene.add(this.model);
             this.resetCamera();
 
-            this.drawRay(new Vector3(), new Vector3());
             console.log("model loaded!");
         });
     }

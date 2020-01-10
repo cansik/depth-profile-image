@@ -1,31 +1,21 @@
-import {ThreeViewController} from "./ThreeViewController";
+import {T3View} from "./T3View";
 
 export class ProfileViewer {
-    private readonly threeView = new ThreeViewController();
-    private isDebug = ProfileViewer.getIsDebug();
+    private readonly threeView = new T3View();
 
     public run() {
         // show cloud id
         console.log("cloud viewer initialisation...");
 
-        // setup
-        this.threeView.setup(this.isDebug);
-        this.setupEventHandler();
+        // setup scenes per profile
+        this.setupProfileScenes();
     }
 
-    private setupEventHandler() {
-
-    }
-
-    private static getIsDebug(): boolean {
-        let debugString = ProfileViewer.getUrlParameter("debug");
-        return debugString !== ''
-    }
-
-    private static getUrlParameter(name: string): string {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        let results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    private setupProfileScenes() {
+        const sceneElements = document.getElementsByClassName("scene");
+        for (let i = 0; i < sceneElements.length; i++) {
+            const e = <HTMLElement>sceneElements.item(i);
+            this.threeView.add(e);
+        }
     }
 }
