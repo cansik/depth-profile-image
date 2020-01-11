@@ -4,7 +4,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
 export class T3View {
     public readonly canvas = <HTMLCanvasElement>document.getElementById("mainCanvas");
-    private readonly renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true});
+    private readonly renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true, alpha: true});
     private readonly scenes = Array<THREE.Scene>();
 
     constructor() {
@@ -34,7 +34,7 @@ export class T3View {
         scene.userData.controls = controls;
 
         let geometry = new THREE.BoxGeometry(1, 1, 1);
-        let material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+        let material = new THREE.MeshBasicMaterial({color: 0x001f3f});
         let cube = new THREE.Mesh(geometry, material);
 
         scene.add(cube);
