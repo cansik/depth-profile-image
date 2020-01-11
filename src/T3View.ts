@@ -59,7 +59,7 @@ export class T3View {
     render() {
         this.updateSize();
 
-        this.canvas.style.transform = `translateY(${window.scrollY}px)`;
+        //this.canvas.style.transform = `translateY(${window.scrollY}px)`;
 
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.setScissorTest(false);
