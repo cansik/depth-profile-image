@@ -37,22 +37,22 @@ body {
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .card {
-  background: dodgerblue;
+  background: #353b48;
   color: white;
   padding: 1rem;
 }
 
 
 .card .scene {
-  width: 300px;
+  width: 240px;
   height: 300px;
 }
 
 .card .description {
-  margin-top: 0.5em;
+  margin-top: 1.0em;
 }
 

@@ -18,7 +18,7 @@
     attribute vec2 texcoord;
 
     varying vec2 tc;
-    varying float lum;
+    varying float depthLum;
 
     void main() {
         tc = texcoord;
@@ -28,11 +28,11 @@
         // calculate luminance
         vec3 luminanceVector = vec3(0.2125, 0.7154, 0.0721);
         float luminance = 1.0 - dot(luminanceVector, depth.xyz);
-        lum = luminance;
+        depthLum = luminance;
 
         // lerp z by luminance
         vec3 pt = position;
-        pt.z += maxDepth * luminance;
+        pt.z -= maxDepth * luminance;
 
         vec4 mvPosition = modelViewMatrix * vec4(pt, 1.0);
         gl_PointSize = pointSize;
@@ -44,16 +44,47 @@
     uniform sampler2D colorMap;
 
     varying vec2 tc;
-    varying float lum;
+    varying float depthLum;
+
+    // mapping function : https://www.shadertoy.com/view/WlfXRN
+    vec3 plasma(float t) {
+        const vec3 c0 = vec3(0.05873234392399702, 0.02333670892565664, 0.5433401826748754);
+        const vec3 c1 = vec3(2.176514634195958, 0.2383834171260182, 0.7539604599784036);
+        const vec3 c2 = vec3(-2.689460476458034, -7.455851135738909, 3.110799939717086);
+        const vec3 c3 = vec3(6.130348345893603, 42.3461881477227, -28.51885465332158);
+        const vec3 c4 = vec3(-11.10743619062271, -82.66631109428045, 60.13984767418263);
+        const vec3 c5 = vec3(10.02306557647065, 71.41361770095349, -54.07218655560067);
+        const vec3 c6 = vec3(-3.658713842777788, -22.93153465461149, 18.19190778539828);
+
+        return c0+t*(c1+t*(c2+t*(c3+t*(c4+t*(c5+t*c6)))));
+    }
+
+    vec3 magma(float t) {
+        const vec3 c0 = vec3(-0.002136485053939582, -0.000749655052795221, -0.005386127855323933);
+        const vec3 c1 = vec3(0.2516605407371642, 0.6775232436837668, 2.494026599312351);
+        const vec3 c2 = vec3(8.353717279216625, -3.577719514958484, 0.3144679030132573);
+        const vec3 c3 = vec3(-27.66873308576866, 14.26473078096533, -13.64921318813922);
+        const vec3 c4 = vec3(52.17613981234068, -27.94360607168351, 12.94416944238394);
+        const vec3 c5 = vec3(-50.76852536473588, 29.04658282127291, 4.23415299384598);
+        const vec3 c6 = vec3(18.65570506591883, -11.48977351997711, -5.601961508734096);
+
+        return c0+t*(c1+t*(c2+t*(c3+t*(c4+t*(c5+t*c6)))));
+    }
 
     void main() {
         // read color from color map
         vec4 color = texture2D(colorMap, tc);
+        vec3 luminanceVector = vec3(0.2125, 0.7154, 0.0721);
+        float luminance = dot(luminanceVector, color.xyz);
+        gl_FragColor = vec4(plasma(luminance), 1.0);
 
-        // clip image
-        gl_FragColor = color;
+        // flip luminosity and map to display
+        float depthFilter = 0.4;// todo: move this into js code
+        float fineDepth = 1.0 - min(1.0, depthLum / depthFilter);
+        //gl_FragColor = mix(color, vec4(magma(fineDepth), 1.0), 0.5);
 
         if (gl_FragColor.a < ALPHATEST) discard;
+        if (depthLum > depthFilter) discard;
     }
 </script>
 
@@ -69,12 +100,6 @@
         </div>
         <div class="card">
             <div class="scene"
-                 data-color="assets/images/emil_color.png"
-                 data-depth="assets/images/emil_depth.png"></div>
-            <div class="description">Oskar</div>
-        </div>
-        <div class="card">
-            <div class="scene"
                  data-color="assets/test/me_color.jpeg"
                  data-depth="assets/test/me_depth.jpg"></div>
             <div class="description">Florian</div>
@@ -84,6 +109,12 @@
                  data-color="assets/test/martin.jpeg"
                  data-depth="assets/test/martin_depth.jpg"></div>
             <div class="description">Martin</div>
+        </div>
+        <div class="card">
+            <div class="scene"
+                 data-color="assets/test/christy.jpeg"
+                 data-depth="assets/test/christy_depth.jpg"></div>
+            <div class="description">Christy</div>
         </div>
     </div>
 </div>

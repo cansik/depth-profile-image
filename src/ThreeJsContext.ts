@@ -18,11 +18,14 @@ export class ThreeJsContext {
         // create scene
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(45, 1, 1, 10);
+
         let controls = new OrbitControls(camera, sceneElement);
         controls.minDistance = 2;
         controls.maxDistance = 20;
         controls.enablePan = false;
         controls.enableZoom = true;
+        controls.dampingFactor = 0.05;
+        controls.enableDamping = true;
 
         // setup user data
         scene.userData.element = sceneElement;
@@ -57,7 +60,7 @@ export class ThreeJsContext {
         this.renderer.setScissorTest(false);
         this.renderer.clear();
 
-        this.renderer.setClearColor(0xe0e0e0);
+        this.renderer.setClearColor(0xf5f6fa);
         this.renderer.setScissorTest(true);
 
         this.scenes.forEach(scene => {
