@@ -2,7 +2,7 @@ import * as THREE from "three";
 // @ts-ignore
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
-export class T3View {
+export class ThreeJsContext {
     public readonly canvas = <HTMLCanvasElement>document.getElementById("mainCanvas");
     private readonly renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true, alpha: true});
     private readonly scenes = Array<THREE.Scene>();

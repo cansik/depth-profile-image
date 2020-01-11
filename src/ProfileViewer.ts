@@ -1,7 +1,7 @@
-import {T3View} from "./T3View";
+import {ThreeJsContext} from "./ThreeJsContext";
 
 export class ProfileViewer {
-    private readonly threeView = new T3View();
+    private readonly threeView = new ThreeJsContext();
 
     public run() {
         // show cloud id
