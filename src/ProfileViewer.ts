@@ -4,8 +4,8 @@ import * as THREE from "three";
 export class ProfileViewer {
     private readonly context = new ThreeJsContext();
 
-    private maxDepth = 5.0;
-    private pointSize = 5.0;
+    private maxDepth = 4.0;
+    private pointSize = 2.0;
     private pointSpace = 0.01;
 
     public run() {
@@ -23,8 +23,8 @@ export class ProfileViewer {
             const scene = this.context.addScene(sceneElement);
 
             // read attributes
-            let colorImageUrl = sceneElement.getAttribute("data-color");
-            let depthImageUrl = sceneElement.getAttribute("data-depth");
+            const colorImageUrl = sceneElement.getAttribute("data-color");
+            const depthImageUrl = sceneElement.getAttribute("data-depth");
 
             // add test element
             /*
@@ -34,13 +34,14 @@ export class ProfileViewer {
             scene.add(cube);
              */
 
-            scene.add(this.createDepthFromImage(colorImageUrl, depthImageUrl));
+            const geometry = this.createDepthFromImage(colorImageUrl, depthImageUrl);
+            scene.add(geometry);
         }
     }
 
     private createDepthFromImage(colorImageUrl: string, depthImageUrl: string): THREE.Points {
-        const planeWidth = 480;
-        const planeHeight = 640;
+        const planeWidth = 240;
+        const planeHeight = 320;
 
         const geometry = new THREE.BufferGeometry();
         const positions = [];

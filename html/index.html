@@ -27,7 +27,7 @@
 
         // calculate luminance
         vec3 luminanceVector = vec3(0.2125, 0.7154, 0.0721);
-        float luminance = dot(luminanceVector, depth.xyz);
+        float luminance = 1.0 - dot(luminanceVector, depth.xyz);
         lum = luminance;
 
         // lerp z by luminance
@@ -73,8 +73,18 @@
                  data-depth="assets/images/emil_depth.png"></div>
             <div class="description">Oskar</div>
         </div>
-        <div class="card">Three</div>
-        <div class="card">Four</div>
+        <div class="card">
+            <div class="scene"
+                 data-color="assets/test/me_color.jpeg"
+                 data-depth="assets/test/me_depth.jpg"></div>
+            <div class="description">Florian</div>
+        </div>
+        <div class="card">
+            <div class="scene"
+                 data-color="assets/test/martin.jpeg"
+                 data-depth="assets/test/martin_depth.jpg"></div>
+            <div class="description">Martin</div>
+        </div>
     </div>
 </div>
 

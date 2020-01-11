@@ -17,10 +17,10 @@ export class ThreeJsContext {
     public addScene(sceneElement: HTMLElement): THREE.Scene {
         // create scene
         let scene = new THREE.Scene();
-        let camera = new THREE.PerspectiveCamera(50, 1, 1, 10);
+        let camera = new THREE.PerspectiveCamera(45, 1, 1, 10);
         let controls = new OrbitControls(camera, sceneElement);
         controls.minDistance = 2;
-        controls.maxDistance = 5;
+        controls.maxDistance = 20;
         controls.enablePan = false;
         controls.enableZoom = true;
 
