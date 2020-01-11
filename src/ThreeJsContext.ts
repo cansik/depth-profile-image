@@ -14,11 +14,7 @@ export class ThreeJsContext {
         this.animate();
     }
 
-    public add(sceneElement: HTMLElement) {
-        // read infos
-        let colorImage = sceneElement.getAttribute("data-color");
-        let depthImage = sceneElement.getAttribute("data-depth");
-
+    public addScene(sceneElement: HTMLElement): THREE.Scene {
         // create scene
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(50, 1, 1, 10);
@@ -26,21 +22,17 @@ export class ThreeJsContext {
         controls.minDistance = 2;
         controls.maxDistance = 5;
         controls.enablePan = false;
-        controls.enableZoom = false;
+        controls.enableZoom = true;
 
         // setup user data
         scene.userData.element = sceneElement;
         scene.userData.camera = camera;
         scene.userData.controls = controls;
 
-        let geometry = new THREE.BoxGeometry(1, 1, 1);
-        let material = new THREE.MeshBasicMaterial({color: 0x001f3f});
-        let cube = new THREE.Mesh(geometry, material);
-
-        scene.add(cube);
-
         this.scenes.push(scene);
+        return scene;
     }
+
 
     updateSize() {
         let width = this.canvas.clientWidth;
