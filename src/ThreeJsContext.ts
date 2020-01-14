@@ -6,12 +6,21 @@ export class ThreeJsContext {
     public readonly canvas = <HTMLCanvasElement>document.getElementById("mainCanvas");
     private readonly renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias: true, alpha: true});
     private readonly scenes = Array<THREE.Scene>();
+    private readonly mouse = new THREE.Vector2();
 
     constructor() {
         this.renderer.setClearColor(0xffffff, 1);
         this.renderer.setPixelRatio(window.devicePixelRatio);
 
+        document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
+
         this.animate();
+    }
+
+    public onDocumentMouseMove(event: MouseEvent) {
+        event.preventDefault();
+        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
     public addScene(sceneElement: HTMLElement): THREE.Scene {
