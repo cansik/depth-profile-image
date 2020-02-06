@@ -120,16 +120,20 @@ export class ThreeJsContext {
         if (scene.children.length == 0)
             return;
 
+        const xyScale = 3.0;
+        const distanceScale = 6.0;
+
         // normalize center
         center.x = (center.x / window.innerWidth) * 2 - 1;
         center.y = -(center.y / window.innerHeight) * 2 + 1;
 
         // calculate position vector
         const position2d = this.mouse.clone().sub(center);
+        position2d.multiplyScalar(xyScale);
 
         // set lookat
         const object = scene.children[0];
-        const position3d = new Vector3(position2d.x, 2, position2d.y);
+        const position3d = new Vector3(position2d.x, position2d.y, distanceScale);
         object.lookAt(position3d);
     }
 }
