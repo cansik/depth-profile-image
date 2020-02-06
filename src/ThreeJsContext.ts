@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import {Vector2, Vector3} from "three";
 // @ts-ignore
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
@@ -39,7 +40,7 @@ export class ThreeJsContext {
         // camera position
         camera.position.x = 0;
         camera.position.y = 0;
-        camera.position.z = 3;
+        camera.position.z = 3.5;
 
         // move camera
         controls.update();
@@ -98,6 +99,8 @@ export class ThreeJsContext {
             let left = rect.left;
             let bottom = this.renderer.domElement.clientHeight - rect.bottom;
 
+            this.rotateToMouse(scene, new Vector2(rect.left + (width * 0.5), rect.top + (height * 0.5)));
+
             this.renderer.setViewport(left, bottom, width, height);
             this.renderer.setScissor(left, bottom, width, height);
 
@@ -108,8 +111,25 @@ export class ThreeJsContext {
 
             scene.userData.controls.update();
 
+
             this.renderer.render(scene, camera);
         });
+    }
 
+    rotateToMouse(scene: THREE.Scene, center: Vector2) {
+        if (scene.children.length == 0)
+            return;
+
+        // normalize center
+        center.x = (center.x / window.innerWidth) * 2 - 1;
+        center.y = -(center.y / window.innerHeight) * 2 + 1;
+
+        // calculate position vector
+        const position2d = this.mouse.clone().sub(center);
+
+        // set lookat
+        const object = scene.children[0];
+        const position3d = new Vector3(position2d.x, 2, position2d.y);
+        object.lookAt(position3d);
     }
 }
