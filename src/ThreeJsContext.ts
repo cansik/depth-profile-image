@@ -36,10 +36,12 @@ export class ThreeJsContext {
         controls.dampingFactor = 0.05;
         controls.enableDamping = true;
 
-        // rotate camera
+        // camera position
         camera.position.x = 0;
         camera.position.y = 0;
-        camera.position.z = 1;
+        camera.position.z = 3;
+
+        // move camera
         controls.update();
 
         // setup user data
