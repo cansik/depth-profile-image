@@ -4,7 +4,7 @@ import * as THREE from "three";
 export class ProfileViewer {
     private readonly context = new ThreeJsContext();
 
-    private maxDepth = 4.0;
+    private defaultMaxDepth = 4.0;
     private pointSize = 2.0;
     private pointSpace = 0.01;
 
@@ -26,6 +26,12 @@ export class ProfileViewer {
             const colorImageUrl = sceneElement.getAttribute("data-color");
             const depthImageUrl = sceneElement.getAttribute("data-depth");
 
+            const depth = sceneElement.hasAttribute("max-depth") ?
+                parseFloat(sceneElement.getAttribute("max-depth")) : this.defaultMaxDepth;
+
+
+            //const depthImageUrl = sceneElement.getAttribute("data-depth");
+
             // add test element
             /*
             let geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -34,12 +40,12 @@ export class ProfileViewer {
             scene.add(cube);
              */
 
-            const geometry = this.createDepthFromImage(colorImageUrl, depthImageUrl);
+            const geometry = this.createDepthFromImage(colorImageUrl, depthImageUrl, depth);
             scene.add(geometry);
         }
     }
 
-    private createDepthFromImage(colorImageUrl: string, depthImageUrl: string): THREE.Points {
+    private createDepthFromImage(colorImageUrl: string, depthImageUrl: string, maxDepth: number): THREE.Points {
         const planeWidth = 240;
         const planeHeight = 320;
 
@@ -70,7 +76,7 @@ export class ProfileViewer {
         const material = new THREE.ShaderMaterial({
             uniforms: {
                 pointSize: {value: this.pointSize},
-                maxDepth: {value: this.maxDepth},
+                maxDepth: {value: maxDepth},
 
                 depthMap: {value: new THREE.TextureLoader().load(depthImageUrl)},
                 colorMap: {value: new THREE.TextureLoader().load(colorImageUrl)},

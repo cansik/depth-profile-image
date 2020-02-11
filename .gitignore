@@ -4,4 +4,5 @@ dist
 *.drc
 assets/test
 assets/clouds
-assets/tool/martin.jpeg
+assets/images
+assets/tool/

@@ -78,7 +78,8 @@ export class ThreeJsContext {
         this.renderer.setScissorTest(false);
         this.renderer.clear();
 
-        this.renderer.setClearColor(0xf5f6fa);
+        //this.renderer.setClearColor(0xf5f6fa);
+        this.renderer.setClearColor(0x000);
         this.renderer.setScissorTest(true);
 
         this.scenes.forEach(scene => {
