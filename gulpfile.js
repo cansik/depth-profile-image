@@ -13,7 +13,9 @@ const minify = require('gulp-minify');
 const paths = {
     pages: ['./html/*.html', './html/**/*.html'],
     libs: [
-        'libs/**/*.*'
+        'libs/**/*.*',
+        'node_modules/three/build/three.js',
+        'node_modules/three/examples/js/controls/OrbitControls.js'
     ],
     watch: {
         typescript: ['./src/*.ts', './src/**/*.ts'],
@@ -62,6 +64,7 @@ gulp.task('compile', function () {
         cache: {},
         packageCache: {}
     })
+        .ignore('three')
         .plugin(tsify)
         .transform('babelify', {
                 global: true,
@@ -84,11 +87,11 @@ gulp.task('compile', function () {
         )
         .bundle()
         .pipe(source('bundle.js'))
-        .pipe(buffer())
-        .pipe(sourcemaps.init({loadMaps: true}))
+        //.pipe(buffer())
+        //.pipe(sourcemaps.init({loadMaps: true}))
         //.pipe(uglify()) //=> enable for release!
-        .pipe(minify())
-        .pipe(sourcemaps.write('./'))
+        //.pipe(minify())
+        //.pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('dist'))
         .pipe(connect.reload());
 });

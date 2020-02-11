@@ -1,5 +1,6 @@
 import {ThreeJsContext} from "./ThreeJsContext";
-import * as THREE from "three";
+
+declare var THREE: any;
 
 export class ProfileViewer {
     private readonly context = new ThreeJsContext();

@@ -1,7 +1,4 @@
-import * as THREE from "three";
-import {Vector2, Vector3} from "three";
-// @ts-ignore
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+declare var THREE: any;
 
 export class ThreeJsContext {
     public readonly canvas = <HTMLCanvasElement>document.getElementById("mainCanvas");
@@ -29,7 +26,7 @@ export class ThreeJsContext {
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(45, 1, 1, 10);
 
-        let controls = new OrbitControls(camera, sceneElement);
+        let controls = new THREE.OrbitControls(camera, sceneElement);
         controls.minDistance = 2;
         controls.maxDistance = 20;
         controls.enablePan = false;
@@ -100,7 +97,7 @@ export class ThreeJsContext {
             let left = rect.left;
             let bottom = this.renderer.domElement.clientHeight - rect.bottom;
 
-            this.rotateToMouse(scene, new Vector2(rect.left + (width * 0.5), rect.top + (height * 0.5)));
+            this.rotateToMouse(scene, new THREE.Vector2(rect.left + (width * 0.5), rect.top + (height * 0.5)));
 
             this.renderer.setViewport(left, bottom, width, height);
             this.renderer.setScissor(left, bottom, width, height);
@@ -117,7 +114,7 @@ export class ThreeJsContext {
         });
     }
 
-    rotateToMouse(scene: THREE.Scene, center: Vector2) {
+    rotateToMouse(scene: THREE.Scene, center: THREE.Vector2) {
         if (scene.children.length == 0)
             return;
 
@@ -134,7 +131,7 @@ export class ThreeJsContext {
 
         // set lookat
         const object = scene.children[0];
-        const position3d = new Vector3(position2d.x, position2d.y, distanceScale);
+        const position3d = new THREE.Vector3(position2d.x, position2d.y, distanceScale);
         object.lookAt(position3d);
     }
 }

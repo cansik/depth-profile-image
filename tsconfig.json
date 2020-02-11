@@ -1,10 +1,12 @@
 {
-    "compilerOptions": {
-        "noImplicitAny": true,
-        "target": "es6",
-        "baseUrl": ".",
-        "paths": {
-            "three": ["node_modules/three/src/Three"]
-        }
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es6",
+    "baseUrl": ".",
+    "paths": {
+      "three": [
+        //"node_modules/three/src/Three"
+      ]
     }
+  }
 }
