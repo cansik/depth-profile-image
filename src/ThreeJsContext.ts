@@ -42,7 +42,7 @@ export class ThreeJsContext {
         // camera position
         camera.position.x = 0;
         camera.position.y = 0;
-        camera.position.z = 3.5;
+        camera.position.z = 6.5;
 
         // move camera
         controls.update();
