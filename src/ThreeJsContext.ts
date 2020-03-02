@@ -24,7 +24,7 @@ export class ThreeJsContext {
         this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
-    public addScene(sceneElement: HTMLElement): THREE.Scene {
+    public addScene(sceneElement: HTMLElement, updateCallback: (scene: THREE.Scene) => void = null): THREE.Scene {
         // create scene
         let scene = new THREE.Scene();
         let camera = new THREE.PerspectiveCamera(45, 1, 1, 10);
@@ -49,6 +49,7 @@ export class ThreeJsContext {
         scene.userData.element = sceneElement;
         scene.userData.camera = camera;
         scene.userData.controls = controls;
+        scene.userData.updateCallback = updateCallback;
 
         this.scenes.push(scene);
         return scene;
@@ -84,6 +85,11 @@ export class ThreeJsContext {
 
         this.scenes.forEach(scene => {
             let element = scene.userData.element;
+
+            // update if necessary
+            let updateCallback = scene.userData.updateCallback;
+            if (updateCallback != null)
+                updateCallback(scene);
 
             // get its position relative to the page's viewport
             let rect = element.getBoundingClientRect();

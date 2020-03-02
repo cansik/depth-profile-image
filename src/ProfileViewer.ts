@@ -8,6 +8,9 @@ export class ProfileViewer {
     private pointSize = 2.0;
     private pointSpace = 0.01;
 
+    private startTime = Date.now();
+    private time = 0.0;
+
     public run() {
         // show cloud id
         console.log("cloud viewer initialisation...");
@@ -20,7 +23,7 @@ export class ProfileViewer {
         const sceneElements = document.getElementsByClassName("scene");
         for (let i = 0; i < sceneElements.length; i++) {
             const sceneElement = <HTMLElement>sceneElements.item(i);
-            const scene = this.context.addScene(sceneElement);
+            const scene = this.context.addScene(sceneElement, this.update.bind(this));
 
             // read attributes
             const colorImageUrl = sceneElement.getAttribute("data-color");
@@ -28,17 +31,6 @@ export class ProfileViewer {
 
             const depth = sceneElement.hasAttribute("max-depth") ?
                 parseFloat(sceneElement.getAttribute("max-depth")) : this.defaultMaxDepth;
-
-
-            //const depthImageUrl = sceneElement.getAttribute("data-depth");
-
-            // add test element
-            /*
-            let geometry = new THREE.BoxGeometry(1, 1, 1);
-            let material = new THREE.MeshBasicMaterial({color: 0xFF1f3f});
-            let cube = new THREE.Mesh(geometry, material);
-            scene.add(cube);
-             */
 
             const geometry = this.createDepthFromImage(colorImageUrl, depthImageUrl, depth);
             scene.add(geometry);
@@ -50,6 +42,7 @@ export class ProfileViewer {
         const planeHeight = 320;
 
         const geometry = new THREE.BufferGeometry();
+        geometry.name = "cloud";
         const positions = [];
         const textureCoordinates = [];
 
@@ -75,6 +68,8 @@ export class ProfileViewer {
         // add material to map
         const material = new THREE.ShaderMaterial({
             uniforms: {
+                time: {type: "f", value: this.time},
+
                 pointSize: {value: this.pointSize},
                 maxDepth: {value: maxDepth},
 
@@ -87,5 +82,22 @@ export class ProfileViewer {
         });
 
         return new THREE.Points(geometry, material);
+    }
+
+    private update(scene: THREE.Scene) {
+        const elapsedMilliseconds = Date.now() - this.startTime;
+        this.time = elapsedMilliseconds / 1000.0;
+
+        // update first element
+        let obj = scene.children[0];
+
+        if (obj == undefined) {
+            console.log("obj is undefined");
+            return;
+        }
+
+        let points = obj as THREE.Points;
+        let material = points.material as THREE.ShaderMaterial;
+        material.uniforms.time.value = this.time;
     }
 }
